@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AshGames</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Ambient background -->
+  <div class="bg">
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+    <div class="orb orb-c"></div>
+    <div class="grain"></div>
+  </div>
+
+  <header class="topbar">
+    <div class="brand" role="banner" aria-label="AshGames Home">
+      <div class="logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M12 2l8.5 4.9v10.2L12 22l-8.5-4.9V6.9L12 2Z" />
+          <path d="M8.2 10.1 12 7.9l3.8 2.2v4.2L12 16.5 8.2 14.3v-4.2Z" />
+        </svg>
+      </div>
+      <div class="brandText">
+        <div class="brandName">AshGames</div>
+        <div class="brandTag">Your orange-glass game hub</div>
+      </div>
+    </div>
+
+    <div class="topActions">
+      <button class="pill" id="addBtn" type="button">
+        <span class="pillIcon" aria-hidden="true">＋</span>
+        Add Game
+      </button>
+      <button class="pill ghost" id="resetBtn" type="button" title="Reset to defaults">
+        Reset
+      </button>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero glass">
+      <div class="heroGlow"></div>
+      <div class="heroInner">
+        <div class="heroLeft">
+          <h1 class="title">Pick a game. Click. Play.</h1>
+          <p class="subtitle">
+            Drop your links in here and AshGames becomes your personal launcher.
+          </p>
+
+          <div class="searchRow">
+            <div class="searchWrap">
+              <span class="searchIcon" aria-hidden="true">⌕</span>
+              <input id="searchInput" class="search" type="search" placeholder="Search games..." autocomplete="off" />
+              <button id="clearSearch" class="iconBtn" type="button" title="Clear search" aria-label="Clear search">
+                ✕
+              </button>
+            </div>
+
+            <div class="chipRow" id="chipRow" aria-label="Category filters"></div>
+          </div>
+
+          <div class="stats">
+            <div class="statCard">
+              <div class="statNum" id="statCount">0</div>
+              <div class="statLabel">Games</div>
+            </div>
+            <div class="statCard">
+              <div class="statNum" id="statShown">0</div>
+              <div class="statLabel">Shown</div>
+            </div>
+            <div class="statCard">
+              <div class="statNum">✦</div>
+              <div class="statLabel">Orange Glass</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="heroRight">
+          <div class="previewCard">
+            <div class="previewTop">
+              <div class="dot dot-r"></div>
+              <div class="dot dot-y"></div>
+              <div class="dot dot-g"></div>
+              <div class="previewTitle">Launcher</div>
+            </div>
+            <div class="previewBody">
+              <div class="miniRow">
+                <span class="miniPill"></span>
+                <span class="miniPill"></span>
+                <span class="miniPill"></span>
+              </div>
+              <div class="miniGrid">
+                <div class="miniTile"></div>
+                <div class="miniTile"></div>
+                <div class="miniTile"></div>
+                <div class="miniTile"></div>
+                <div class="miniTile"></div>
+                <div class="miniTile"></div>
+              </div>
+              <div class="miniFooter">
+                <span class="miniBar"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="gridHead">
+      <h2 class="sectionTitle">Games</h2>
+      <div class="sortRow">
+        <label class="selectWrap">
+          <span class="selectLabel">Sort</span>
+          <select id="sortSelect" class="select">
+            <option value="name-asc">Name (A→Z)</option>
+            <option value="name-desc">Name (Z→A)</option>
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <section id="gameGrid" class="grid" aria-label="Game grid"></section>
+
+    <footer class="footer">
+      <div class="footerGlass">
+        <span>Tip:</span> click <b>Add Game</b>, paste your link, and it’ll save on this device.
+      </div>
+    </footer>
+  </main>
+
+  <!-- Modal -->
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="modalBackdrop" data-close="true"></div>
+
+    <div class="modalPanel glass" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modalHeader">
+        <div>
+          <div id="modalTitle" class="modalTitle">Add a game</div>
+          <div class="modalSub">Name + link + optional category and emoji.</div>
+        </div>
+        <button class="iconBtn" id="closeModal" type="button" aria-label="Close">✕</button>
+      </div>
+
+      <form id="addForm" class="form">
+        <div class="row">
+          <label class="field">
+            <span class="fieldLabel">Game name</span>
+            <input id="nameInput" class="input" required maxlength="40" placeholder="e.g., AvZ" />
+          </label>
+          <label class="field">
+            <span class="fieldLabel">Emoji</span>
+            <input id="emojiInput" class="input" maxlength="2" placeholder="🎮" />
+          </label>
+        </div>
+
+        <label class="field">
+          <span class="fieldLabel">Link (URL)</span>
+          <input id="urlInput" class="input" required placeholder="https://yourgame.com" />
+        </label>
+
+        <div class="row">
+          <label class="field">
+            <span class="fieldLabel">Category</span>
+            <input id="catInput" class="input" maxlength="20" placeholder="Arcade / Strategy / FPS..." />
+          </label>
+
+          <label class="field">
+            <span class="fieldLabel">Open</span>
+            <select id="targetSelect" class="select input">
+              <option value="blank" selected>New tab</option>
+              <option value="self">Same tab</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="modalActions">
+          <button class="pill ghost" type="button" id="cancelAdd">Cancel</button>
+          <button class="pill" type="submit">Add</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
